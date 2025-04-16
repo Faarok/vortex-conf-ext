@@ -28,13 +28,16 @@ function injectStyles() {
             min-height: 100%;
         }
 
+        .grid-container {
+            height: 70vh;
+            overflow-y: scroll;
+        }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
             padding: 1rem;
-            height: 70vh;
-            overflow-y: scroll;
         }
 
         .grid.grid-6 {
@@ -242,10 +245,10 @@ const MyMainPage = () => {
 
     let subTitle = 'Choix des catégories';
 
-    if(parentCategory && subCategories.length > 0)
-        subTitle = `Sous-catégories de : ${parentCategory.name}`;
-    else if(modsForCategory.length > 0 && selectedCategory)
+    if(modsForCategory.length > 0 && selectedCategory)
         subTitle = `Mods de la catégorie ${selectedCategory.name}`;
+    else if(parentCategory && subCategories.length > 0)
+        subTitle = `Sous-catégories de : ${parentCategory.name}`;
 
     const rows = (subCategories.length > 0 ? subCategories : categories).map((cat) =>
         React.createElement(
@@ -304,9 +307,13 @@ const MyMainPage = () => {
         React.createElement('h1', { className: 'text-center' }, 'Bienvenue sur l\'extension de la Confrérie des Traducteurs'),
         React.createElement('h2', { className: 'text-center' }, subTitle),
 
-        modsForCategory.length > 0
-            ? React.createElement('div', { className: 'grid grid-6' }, mods)
-            : React.createElement('div', { className: 'grid' }, rows),
+        React.createElement(
+            'div',
+            { className: 'grid-container'},
+            modsForCategory.length > 0
+                ? React.createElement('div', { className: 'grid grid-6' }, mods)
+                : React.createElement('div', { className: 'grid' }, rows),
+        ),
 
         (subCategories.length > 0 || modsForCategory.length > 0) &&
             React.createElement(
