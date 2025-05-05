@@ -14,7 +14,6 @@ const loadSlickStyles = () => {
     document.head.appendChild(link2);
 };
 
-// Appelle la fonction pour charger les styles lorsque nécessaire
 loadSlickStyles();
 
 /**
@@ -180,13 +179,14 @@ function injectStyles() {
         .header {
             display: flex;
             flex-direction: column;
+            min-height: 85vh;
         }
 
         .header .header-banner {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            min-height: 45vh;
+            min-height: 50vh;
             flex: 1;
             background-position: center;
             background-repeat: no-repeat;
@@ -241,7 +241,25 @@ function injectStyles() {
         }
 
         .header .header-translators {
-            background-color: orange;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .header-translators p {
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .header-translators span {
+            color: #772a00;
+        }
+
+        .header-translators .unProofread {
+            color: #fff;
+            background-color: #772a00;
+            border-radius: 5px;
+            padding: 0 10px;
         }
 
         .slick-prev,
@@ -266,7 +284,7 @@ function injectStyles() {
 
         .slick-slide img {
             max-width: 100%;
-            max-height: 200px;
+            max-height: 215px;
             width: auto;
             height: auto;
             margin: auto;
@@ -470,9 +488,11 @@ const MyMainPage = () => {
     };
 
     // Trie les images : image cliquée en premier
-    const sortedImages = (mod) => {
+    const sortedImages = (mod: { Images: Array<{ Link: String }> }) => {
         return mod.Images.slice().sort((a, b) => {
-            if (!clickedImage) return 0;
+            if(!clickedImage)
+                return 0;
+
             return a.Link === clickedImage.Link ? -1 : b.Link === clickedImage.Link ? 1 : 0;
         });
     };
@@ -577,7 +597,7 @@ const MyMainPage = () => {
                     React.createElement(
                         'div',
                         { className: 'header-banner-title' },
-                        React.createElement('h1', {}, mod.Name),
+                        React.createElement('h1', { style: { margin: 0 }}, mod.Name),
                         React.createElement('h3', {}, mod.OriginalName),
                         React.createElement(
                             'h3',
@@ -675,13 +695,23 @@ const MyMainPage = () => {
                         'Previous'
                     )
                 },
-                    mod.Images.map((image, index) =>
-                        React.createElement(
-                            'div',
-                            { key: index },
+                    mod.Images.map((image: { Link: String; Name: String; }, index: number) =>
+                        React.createElement('div', { key: index },
                             React.createElement('img', { className: 'slider-image', src: image.Link, alt: image.Name })
                         )
                     )
+                ),
+                React.createElement('div', { className: 'header-translators' },
+                    React.createElement('p', {}, 'Traduit par ',
+                        React.createElement('span', {}, mod.Translators.map((t: { Name: String; }) => t.Name).join(', '))
+                    ),
+                    mod.Testers.length > 0 && React.createElement('p', {}, 'Testé par ',
+                        React.createElement('span', {}, mod.Testers.map((t: { Name: String; }) => t.Name).join(', '))
+                    ),
+                    mod.Proofreaders.length > 0 && React.createElement('p', {}, 'Relu par ',
+                        React.createElement('span', {}, mod.Proofreaders.map((p: { Name: String; }) => p.Name).join(', '))
+                    ),
+                    !mod.IsProofread && React.createElement('p', { className: 'unProofread' }, 'Ce mod n\'a pas encore été relu')
                 ),
                 isModalOpen && React.createElement(
                     'div',
@@ -750,7 +780,6 @@ const MyMainPage = () => {
                         )
                     )
                 )
-
             )
         );
     }

@@ -4417,13 +4417,14 @@ function injectStyles() {
         .header {
             display: flex;
             flex-direction: column;
+            min-height: 85vh;
         }
 
         .header .header-banner {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            min-height: 45vh;
+            min-height: 50vh;
             flex: 1;
             background-position: center;
             background-repeat: no-repeat;
@@ -4478,7 +4479,25 @@ function injectStyles() {
         }
 
         .header .header-translators {
-            background-color: orange;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .header-translators p {
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .header-translators span {
+            color: #772a00;
+        }
+
+        .header-translators .unProofread {
+            color: #fff;
+            background-color: #772a00;
+            border-radius: 5px;
+            padding: 0 10px;
         }
 
         .slick-prev,
@@ -4503,7 +4522,7 @@ function injectStyles() {
 
         .slick-slide img {
             max-width: 100%;
-            max-height: 200px;
+            max-height: 215px;
             width: auto;
             height: auto;
             margin: auto;
@@ -4683,7 +4702,7 @@ const MyMainPage = () => {
             style: {
                 backgroundImage: `url('${mod.TopImage.Link}')`
             }
-        }, React.createElement('div', { className: 'header-banner-title' }, React.createElement('h1', {}, mod.Name), React.createElement('h3', {}, mod.OriginalName), React.createElement('h3', {}, 'Mod original de ', ...mod.Authors.map((a) => [
+        }, React.createElement('div', { className: 'header-banner-title' }, React.createElement('h1', { style: { margin: 0 } }, mod.Name), React.createElement('h3', {}, mod.OriginalName), React.createElement('h3', {}, 'Mod original de ', ...mod.Authors.map((a) => [
             React.createElement('a', {
                 href: `https://www.confrerie-des-traducteurs.fr/membre/${a.Name}`,
                 target: '_blank'
@@ -4729,7 +4748,7 @@ const MyMainPage = () => {
             slidesToScroll: 1,
             nextArrow: React.createElement('button', { className: 'slick-next slick-arrow', type: 'button' }, 'Next'),
             prevArrow: React.createElement('button', { className: 'slick-prev slick-arrow', type: 'button' }, 'Previous')
-        }, mod.Images.map((image, index) => React.createElement('div', { key: index }, React.createElement('img', { className: 'slider-image', src: image.Link, alt: image.Name })))), isModalOpen && React.createElement('div', {
+        }, mod.Images.map((image, index) => React.createElement('div', { key: index }, React.createElement('img', { className: 'slider-image', src: image.Link, alt: image.Name })))), React.createElement('div', { className: 'header-translators' }, React.createElement('p', {}, 'Traduit par ', React.createElement('span', {}, mod.Translators.map((t) => t.Name).join(', '))), mod.Testers.length > 0 && React.createElement('p', {}, 'Testé par ', React.createElement('span', {}, mod.Testers.map((t) => t.Name).join(', '))), mod.Proofreaders.length > 0 && React.createElement('p', {}, 'Relu par ', React.createElement('span', {}, mod.Proofreaders.map((p) => p.Name).join(', '))), !mod.IsProofread && React.createElement('p', { className: 'unProofread' }, 'Ce mod n\'a pas encore été relu')), isModalOpen && React.createElement('div', {
             style: {
                 position: 'fixed',
                 top: 0,
